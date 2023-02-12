@@ -1,19 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- v-if="$route.meta.requiresAuth" -->
+    <nav v-if="$route.meta.requiresAuth">
+     
+      <router-link to="/listarclientes">Listar clientes</router-link> |
+      <router-link to="/altacliente">Alta cliente</router-link> |
+      <button class="badge bg-danger" @click="logout">Cerrar sesión</button>
+
+    </nav>
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  methods: {
+    logout() {
+      localStorage.removeItem("estoyLogueado");
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
 <style>
@@ -23,6 +30,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
